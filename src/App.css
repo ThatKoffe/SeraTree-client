@@ -1,0 +1,27 @@
+.App {
+  text-align: center;
+}
+
+.userInfo {
+  display: inline-block;
+}
+
+.userInfo img {
+  border-radius: 50%;
+}
+
+.userInfo span {
+  font-size: 30px;
+}
+
+.product-list {
+  list-style: none;
+}
+
+a {
+  color: #61dafb;
+}
+
+.error-text { 
+  color: red;
+}
