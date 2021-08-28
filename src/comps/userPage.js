@@ -19,6 +19,7 @@ function UserPage() {
         fetch(uriv2 + '/user/' + uid)
             .then(r=>r.json())
             .then(d=>{
+                console.log(d)
                 if(d.code !== 200){
                     setError(true);
                     setLoading(false);

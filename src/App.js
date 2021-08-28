@@ -21,9 +21,10 @@ function App() {
 
         <Switch>
           <Route path="/" exact={true}>
+              <br/>
               A simple LinkTree clone :) 
               <br/>
-              <a href="https://github.com/Serakoi">Author</a>
+              <a href="https://github.com/Serakoi" target="_blank">Author</a>
           </Route>
           <Route path="/me/edit">
               <UserEditPage/>

@@ -32,7 +32,6 @@ function UserEditPage() {
                 .then(r=>r.json())
                 .then(d=>{
                     console.log(d)
-                    let userArray = [];
                     console.log(d.json.user)
                     if(d.code !== 200){
                         setError(true);
@@ -108,8 +107,6 @@ function UserEditPage() {
         .then(r=>r.json())
         .then(d=>{
             console.log(d);
-            // d.json.links
-
             if(d.code !== 200){
                 setError(true)
                 return setLoading(false)
@@ -118,6 +115,7 @@ function UserEditPage() {
                 return setLoading(false)
             } else {
                 setOkMsg(true);
+                setLinks(d.json.links);
                 return setLoading(false);
             }
         })
@@ -125,6 +123,42 @@ function UserEditPage() {
         event.preventDefault();
     }
 
+    const handleDelete = (id) => {
+        setLoading(true);
+        let submitLinks = links;
+        var filtered = links.filter(function(value, index, arr){ 
+            if(value.id === id){
+                submitLinks.splice(index, 1);
+            }
+        });
+        
+
+        fetch(`${uriv2}/user/links`, {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json",
+                "token": token.payload
+            },
+            body: JSON.stringify({
+                links: submitLinks
+            })
+        })
+        .then(r=>r.json())
+        .then(d=>{
+            console.log(d);
+            if(d.code !== 200){
+                setError(true)
+                return setLoading(false)
+            } else if(d.json.error){
+                setError(true)
+                return setLoading(false)
+            } else {
+                setOkMsg(true);
+                setLinks(d.json.links);
+                return setLoading(false);
+            }
+        })
+    }
 
     if(!loading) return (
         <div id="user-page" className="userInfo">
@@ -133,8 +167,17 @@ function UserEditPage() {
                     {links?.map(x => {
 
                         return (
-                            <li>
-                                <a href={x.uri} target="_blank" title={x.uri}>{x.name}</a>
+                            <li itemID={x.id} id={x.id} key={x.id}>
+                               ({x.id}) <a href={x.uri} target="_blank" title={x.uri}>{x.name}</a> 
+                                &nbsp;
+                                <a onClick={() => handleDelete(x.id)} style={{ 
+                                    textDecoration: 'none', 
+                                    border: '2px dotted red', 
+                                    borderRadius: '10px', 
+                                    padding: '5px',
+                                    backgroundColor: '#b00202',
+                                    color: 'white'
+                                }}>&times;</a>
                             </li>
                         )
 
